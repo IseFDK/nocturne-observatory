@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-- `npm test`: 16 tests passed
+- `npm test`: 23 tests passed
 - `npm run build`: passed
 - `node --check`: passed for all source, test, configuration and verification files
 - GitHub Pages export validation: passed; all script and style URLs are relative; `.nojekyll` and linked local files are present
@@ -38,19 +38,30 @@ Touch input now uses a nine-pixel direction gate. Horizontal swipes orbit the vi
 
 Mobile layout now uses a shorter, bounded scene, portrait-aware camera fitting, explicit 44-pixel rotation/zoom controls and a separate accessible light row. The tablet breakpoint also avoids the previously cramped 768-pixel desktop composition.
 
-New flight mode slowly orbits the camera, yields to manual steering and respects pause. Quiet view centers the scene, hides inactive interface elements with inert/ARIA state and provides visible return, flight, zoom and next-world controls. Escape restores the interface and prior focus. Reduced-motion defaults remain paused; flight only starts with explicit user interaction. Graphics-free browsers get clearly labeled illustrated flight.
+Quiet view centers the scene, hides inactive interface elements with inert/ARIA state and provides visible return, zoom and next-world controls. Escape restores the interface and prior focus. Reduced-motion defaults remain paused.
 
-`npm test`: 16 tests pass after this update. Production build and JavaScript syntax checks pass.
+`npm test`: 23 tests pass after this update. Production build and JavaScript syntax checks pass.
 
 Public Chromium verification after deployment:
 
 - Hit-testing at three points across the planet/ring reaches the scene, rather than fallback artwork
 - Responsive layouts checked at 320, 375, 390 and 768 CSS pixels: document width equals viewport width
 - All six mobile camera buttons measure 44 × 44 CSS pixels
-- Illustrated flight starts/stops, with matching pressed state and clearly labeled fallback status
 - Quiet view hides/inerts inactive interface elements and provides a visible return button
 - Next-world selection works inside quiet view and updates its label, illustration and URL
 - Escape restores the normal interface and focus to the opening control
 - Quiet-view toolbar remains within the viewport on the smallest tested phone-width layout
 
 The final spacing/readability pass enlarges secondary mobile prose and light/touch targets, and removes the compact zoom readout below 360px so six 44-pixel camera buttons fit. Portrait framing now treats horizontal rings and vertical planet extent separately, avoiding unnecessary distance in landscape/tablet scenes. Physical touch and live GPU validation remain unavailable in this cloud browser.
+
+## Focused simplification
+
+Removed the separate automatic camera mode and its buttons, keyboard shortcut, renderer state, helper/test and CSS animation rules. Quiet view, manual rotation, pause/reset, touch direction gating and all mobile layout fixes are retained. The relevant remaining tests and production build are rerun for this change. Earlier public quiet-view and mobile-layout checks above apply to the preserved behavior; the removal is also checked on the deployed public UI.
+
+## Atlas and ordered route
+
+The collection is now an integrated schematic Atlas. Nodes select a world for free exploration. Start begins the Vesper → Selene → Aether sequence; Next marks each stop and path segment; Stop keeps the partial trace; Restart starts again at Vesper. Manual world changes and browser history restoration end the guided route and clear progress. Advancement is user-driven, with no timers or automatic movement. The chart explicitly describes separate studies and illustrative positions.
+
+The pure route reducer adds eight passing tests covering start, ordered advancement, completion, repeated Next, stop/restart, manual interruption, history restoration, unknown inputs and non-mutating state. Hidden controls transfer focus to their next available action; quiet-view completion transfers focus to its visible exit. Native anchor navigation and unknown hashes are left intact. Reduced-motion still starts the scene paused, so route changes do not require animation.
+
+Production export and syntax checks are rerun. Current public Atlas/mobile/navigation checks accompany the final deployment; live graphics and physical-touch limitations remain as stated above.

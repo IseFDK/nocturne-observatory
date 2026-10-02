@@ -12,7 +12,9 @@ An interactive atlas of three imagined worlds. A small observatory built for the
 
 Grab the planet or the space around its orbit. On touchscreens, swipe sideways to turn; vertical gestures keep scrolling the page and pinch remains native browser zoom. Dedicated 44-pixel touch controls turn the camera and zoom the world. Select a world, adjust the light, hold the motion, or return to the original camera.
 
-**Take a flight** starts a slow camera orbit that yields to manual steering. **Quiet view** hides the interface and centers the world, with a visible exit, flight toggle, zoom and next-world controls. Escape always exits quiet view. Flight is an explicit motion opt-in, including for reduced-motion users. In browsers without WebGL, flight is clearly labeled as an illustrated motion study. Open the field notes for the fictional observation book.
+**The atlas** is a schematic navigation chart of the three separate fictional studies. Start the ordered Vesper → Selene → Aether route and advance at your own pace. Each visited stop marks a node and completed path segment. Stop keeps the partial trace; restart begins at Vesper. Choosing another world returns to free exploration and clears route progress. Browser Back/Forward restores the matching world in free exploration.
+
+**Quiet view** hides the interface and centers the world, with a visible exit, zoom and next-world controls. Escape exits quiet view and restores focus. Manual rotation and pause/reset remain available. Open the field notes for the fictional observation book.
 
 No photographs, remote textures, astronomy feeds, accounts, analytics, cookies, or paid APIs. All world names, coordinates, and descriptions are fictional. Three-dimensional surfaces and particles are rendered locally in the browser. Fonts are self-hosted.
 
@@ -43,7 +45,8 @@ GitHub Pages setup: **Settings → Pages → Deploy from a branch → main → /
 - `src/scene.js` — Three.js scene, orbital camera, procedural geometry, responsive rendering and lifecycle handling
 - `src/shaders.js` — original GLSL planet textures, ice fractures, dusty rings, stars, coronas and particles
 - `src/worlds.js` — fictional world descriptions and deterministic scene utilities
-- `src/interaction.js` — tested touch direction gating, proportional rotation, flight conditions and portrait camera fitting
+- `src/journey.js` — pure ordered-route state, interruption, history restoration and completed path logic
+- `src/interaction.js` — tested touch direction gating, proportional rotation and portrait camera fitting
 - `src/style.css` — responsive editorial layout and illustrated WebGL fallback
 - `test/*.test.js` — content, routing, geometry, transition, zoom, random and camera tests
 - `scripts/verify-build.mjs` — relative-asset and static export checks
@@ -60,7 +63,7 @@ Keyboard controls when the 3D world has focus: arrows to orbit, `+` / `-` to zoo
 
 ## QA
 
-`npm test`: 16 tests for content integrity, safe unknown-world routes, finite renderable geometry, repeated selection, interrupted transitions, shader light limits, zoom boundaries, keyboard orbit limits, seeded particle layout responsive camera presets, touch intent classification, rotation scaling, flight pause/interaction rules and portrait framing and pointer-transparent fallback/decoration layers.
+`npm test`: 23 tests for content integrity, safe unknown-world routes, finite renderable geometry, repeated selection, interrupted transitions, shader light limits, zoom boundaries, keyboard orbit limits, seeded particle layout responsive camera presets, touch intent classification, rotation scaling, portrait framing and pointer-transparent fallback/decoration layers, ordered route progression, repeated Next, stop/restart, manual interruption and history restoration.
 
 `npm run build`: production bundle generation plus static export validation, including relative script/style paths and the presence of every HTML-linked local file.
 

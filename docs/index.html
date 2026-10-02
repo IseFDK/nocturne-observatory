@@ -10,15 +10,15 @@
   <meta property="og:type" content="website" />
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <title>NOCTURNE — An atlas of imagined worlds</title>
-  <script type="module" crossorigin src="./assets/index-pqSMu1BW.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DlRkV5yv.css">
+  <script type="module" crossorigin src="./assets/index-E7oLsTF3.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CaY1xFpB.css">
 </head>
 <body>
   <a class="skip-link" href="#controls">Skip to observatory controls</a>
   <div id="app">
     <header class="masthead">
       <a class="wordmark" href="#" aria-label="Nocturne home"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="11"/><ellipse cx="20" cy="20" rx="18" ry="6" transform="rotate(-35 20 20)"/><circle cx="32" cy="9" r="1.5" class="solid"/></svg><span>NOCTURNE<span class="wordmark-sub">An atlas of imagined worlds</span></span></a>
-      <nav aria-label="Primary navigation"><a class="nav-current" href="#observatory">Observatory<span>01</span></a><button data-dialog="notes-dialog">Field notes<span>02</span></button><button data-dialog="about-dialog">The project<span>03</span></button></nav>
+      <nav aria-label="Primary navigation"><a class="nav-current" href="#observatory">Observatory<span>01</span></a><a href="#atlas">Atlas<span>02</span></a><button data-dialog="notes-dialog">Field notes<span>03</span></button><button data-dialog="about-dialog">The project<span>04</span></button></nav>
       <div class="station-mark"><span class="status-dot"></span>Independent observatory<span class="station-number">N° 004</span></div>
     </header>
 
@@ -45,19 +45,37 @@
 
         <div class="instrument-panel" id="controls">
           <div class="current-object"><span class="micro-label">In the eyepiece</span><span class="current-title"><span id="current-index">01</span><strong id="current-name">Vesper</strong></span></div>
-          <div class="experience-controls"><button id="flight-toggle" class="flight-button" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m3 11 14-7-6 13-2-6-6 0Z"/></svg><span>Take a flight</span></button><button id="quiet-toggle" class="quiet-toggle" aria-label="Hide interface" title="Quiet view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg></button></div>
+          <div class="experience-controls"><button id="journey-eyepiece-next" class="journey-compact" hidden></button><button id="quiet-toggle" class="quiet-toggle" aria-label="Hide interface" title="Quiet view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg></button></div>
           <div class="light-control"><label for="exposure">Light</label><span aria-hidden="true">◐</span><input type="range" id="exposure" min="0.55" max="1.65" step="0.01" value="1" aria-label="Adjust scene light" /><span aria-hidden="true">☼</span></div>
           <div class="camera-controls"><button id="orbit-left" aria-label="Turn world left" title="Turn left"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m9 5-5 5 5 5M4 10h12"/></svg></button><button id="orbit-right" aria-label="Turn world right" title="Turn right"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m11 5 5 5-5 5M4 10h12"/></svg></button><span class="control-divider"></span><button id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button><span class="zoom-label" id="zoom-readout" aria-hidden="true">1.0×</span><button id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button><span class="control-divider"></span><button id="motion-toggle" class="motion-toggle" aria-label="Pause motion" aria-pressed="false" title="Pause motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg></button><button id="reset-view" aria-label="Reset camera view" title="Reset view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8a6 6 0 1 1-.1 4M4 4v4h4"/></svg></button></div>
         </div>
       </section>
 
-      <section class="catalog" aria-labelledby="catalog-title">
-        <div class="catalog-heading"><h2 id="catalog-title">The collection</h2><span>03 studies / Select a world</span></div>
-        <div class="world-list" role="group" aria-label="Select a world">
-          <button class="world-card is-selected" data-world="vesper" aria-pressed="true"><span class="world-number">01</span><span class="world-mini mini-vesper" aria-hidden="true"><i></i></span><span class="world-info"><strong>Vesper</strong><span>A giant, wearing dust</span></span><span class="world-type">Ringed world</span><span class="world-arrow" aria-hidden="true"><svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></span></button>
-          <button class="world-card" data-world="selene" aria-pressed="false"><span class="world-number">02</span><span class="world-mini mini-selene" aria-hidden="true"><i></i></span><span class="world-info"><strong>Selene</strong><span>Ice with a long memory</span></span><span class="world-type">Frozen moon</span><span class="world-arrow" aria-hidden="true"><svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></span></button>
-          <button class="world-card" data-world="aether" aria-pressed="false"><span class="world-number">03</span><span class="world-mini mini-aether" aria-hidden="true"><i></i></span><span class="world-info"><strong>Aether</strong><span>Two lights, one orbit</span></span><span class="world-type">Binary study</span><span class="world-arrow" aria-hidden="true"><svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></span></button>
+      <section class="catalog atlas" id="atlas" aria-labelledby="atlas-title">
+        <div class="catalog-heading"><h2 id="atlas-title">The atlas</h2><span>03 worlds / An imagined route</span></div>
+        <div class="atlas-layout">
+          <div class="atlas-map" role="group" aria-label="Atlas: choose a world for free exploration">
+            <svg class="atlas-chart" viewBox="0 0 640 220" preserveAspectRatio="none" aria-hidden="true">
+              <path class="chart-grid" d="M0 55h640M0 110h640M0 165h640M160 0v220M320 0v220M480 0v220"/>
+              <path class="chart-boundary" d="M12 26V12h14M614 12h14v14M628 194v14h-14M26 208H12v-14"/>
+              <path class="atlas-path" d="M80 148C172 148 195 58 310 58C424 58 468 156 560 156"/>
+              <path class="route-leg" data-leg="0" pathLength="1" d="M80 148C172 148 195 58 310 58"/>
+              <path class="route-leg" data-leg="1" pathLength="1" d="M310 58C424 58 468 156 560 156"/>
+              <circle class="chart-star" cx="166" cy="38" r="1"/><circle class="chart-star" cx="426" cy="186" r="1"/><circle class="chart-star" cx="597" cy="35" r="1"/><circle class="chart-star" cx="40" cy="55" r=".6"/>
+            </svg>
+            <button class="atlas-node is-selected" data-world="vesper" aria-label="Visit Vesper, ringed world" aria-pressed="true" style="--node-x:12.5%;--node-y:67.3%"><span class="world-mini mini-vesper" aria-hidden="true"><i></i></span><span class="node-label"><strong>Vesper</strong><small data-node-status>01 / Ringed world</small></span></button>
+            <button class="atlas-node" data-world="selene" aria-label="Visit Selene, frozen moon" aria-pressed="false" style="--node-x:48.44%;--node-y:26.36%"><span class="world-mini mini-selene" aria-hidden="true"><i></i></span><span class="node-label"><strong>Selene</strong><small data-node-status>02 / Frozen moon</small></span></button>
+            <button class="atlas-node" data-world="aether" aria-label="Visit Aether, binary study" aria-pressed="false" style="--node-x:87.5%;--node-y:70.91%"><span class="world-mini mini-aether" aria-hidden="true"><i></i></span><span class="node-label"><strong>Aether</strong><small data-node-status>03 / Binary study</small></span></button>
+          </div>
+          <div class="atlas-book">
+            <span class="micro-label" id="journey-status">Free exploration</span>
+            <h3 id="journey-title">Dust. Ice.<br><em>Two lights.</em></h3>
+            <p id="journey-summary">Vesper, Selene, Aether. Three studies in sequence, at your own pace.</p>
+            <div class="journey-actions"><button id="journey-start" class="journey-primary">Start the route<svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></button><button id="journey-next" hidden></button><button id="journey-stop" hidden>Stop route</button></div>
+            <a class="atlas-eyepiece" href="#observatory">Look through the eyepiece<svg class="inline-arrow arrow-up" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a>
+          </div>
         </div>
+        <div class="atlas-footnote"><span id="journey-count">00 / 03 visited</span><span>A navigation chart. Positions are illustrative; each stop is a separate study.</span></div>
       </section>
 
       <section class="observation" aria-labelledby="observation-title">
@@ -69,7 +87,7 @@
     <footer><span>NOCTURNE<span class="footer-dot">·</span>A web experiment by <a href="https://github.com/IseFDK" target="_blank" rel="noopener noreferrer">IseFDK <svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a></span><span>Made for the slow look</span><a href="#observatory" class="back-top">Back to the sky <svg class="inline-arrow arrow-up" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a></footer>
   </div>
 
-  <aside id="quiet-ui" class="quiet-ui" hidden aria-label="Quiet view controls"><div class="quiet-top"><span><strong>NOCTURNE</strong><small id="quiet-world-name">01 / VESPER</small></span><button id="quiet-exit"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg><span>Show interface</span></button></div><div class="quiet-bottom"><button id="quiet-flight" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m3 11 14-7-6 13-2-6-6 0Z"/></svg><span>Start flight</span></button><span class="control-divider"></span><button id="quiet-zoom-out" aria-label="Zoom out">−</button><button id="quiet-zoom-in" aria-label="Zoom in">+</button><button id="quiet-next">Next world<svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></button></div><p>Esc to show the interface <span id="quiet-flight-status"></span></p></aside>
+  <aside id="quiet-ui" class="quiet-ui" hidden aria-label="Quiet view controls"><div class="quiet-top"><span><strong>NOCTURNE</strong><small id="quiet-world-name">01 / VESPER</small></span><button id="quiet-exit"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg><span>Show interface</span></button></div><div class="quiet-bottom"><button id="quiet-zoom-out" aria-label="Zoom out">−</button><button id="quiet-zoom-in" aria-label="Zoom in">+</button><button id="quiet-next"><span id="quiet-next-label">Next world</span><svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></button></div><p>Esc to show the interface <span id="quiet-journey-status"></span></p></aside>
 
   <dialog id="world-dialog" class="editorial-dialog" aria-labelledby="world-dialog-title"><div class="dialog-topline"><span class="micro-label" id="dialog-code">Observation 001</span><button class="close-dialog" aria-label="Close observation notes">×</button></div><h2 id="world-dialog-title">Vesper</h2><span class="dialog-subtitle" id="dialog-type">Ringed world</span><p id="dialog-description">A wide ring of fine debris catches the light before the world itself does. Turn the view slowly. The far side keeps its secrets.</p><div class="dialog-rule"></div><p class="dialog-instruction">Drag the planet or its orbit to turn the view. On a phone, swipe sideways; vertical swipes scroll the page. Use + and − to look closer. Pause the motion to hold the moment.</p><button class="dialog-return close-dialog">Return to the eyepiece <svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></button></dialog>
 

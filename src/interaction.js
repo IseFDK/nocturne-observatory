@@ -8,9 +8,6 @@ export function classifyGesture(dx, dy, threshold = 9, bias = 1.25) {
 export function dragAngle(deltaX, width) {
   return -deltaX / Math.max(width, 160) * Math.PI * 1.2;
 }
-export function flightCanRun({ enabled, paused, now, manualUntil }) {
-  return Boolean(enabled && !paused && now >= manualUntil);
-}
 export function fitDistance(aspect, { radius = 3.5, verticalRadius = 1.8, fov = 38, minimum = 6.8, maximum = 32 } = {}) {
   const verticalHalf = fov * Math.PI / 360;
   const horizontalHalf = Math.atan(Math.tan(verticalHalf) * Math.max(aspect, .2));

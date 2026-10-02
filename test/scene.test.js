@@ -47,7 +47,7 @@ test('A paused view can switch worlds repeatedly without stale visibility or tra
   assert.equal(builder.current, 0);
 });
 
-test('Pausing an in-flight transition commits the latest selected world', () => {
+test('Pausing an active transition commits the latest selected world', () => {
   const builder = makeBuilder();
   builder.paused = false;
   builder.select(1);

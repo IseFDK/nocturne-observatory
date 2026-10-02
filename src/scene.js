@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { cameraPreset, clamp, seededRandom, zoomFactor } from './worlds.js';
-import { classifyGesture, dragAngle, flightCanRun, fitDistance } from './interaction.js';
+import { classifyGesture, dragAngle, fitDistance } from './interaction.js';
 import { sphereVertex, planetFragment, ringVertex, ringFragment, starFragment, glowVertex, glowFragment, pointVertex, pointFragment } from './shaders.js';
 
 const TAU = Math.PI * 2;
@@ -14,9 +14,7 @@ export class ObservatoryScene {
     this.onState = onState;
     this.mobile = matchMedia('(max-width: 860px)').matches;
     this.paused = reducedMotion;
-    this.flight = false;
     this.immersive = false;
-    this.manualUntil = 0;
     this.touchGesture = null;
     this.needsRender = true;
     this.time = 0;
@@ -40,7 +38,6 @@ export class ObservatoryScene {
     this.controls.dampingFactor = .065;
     this.controls.enablePan = false;
     this.controls.enableZoom = false; // Ordinary wheel scrolling belongs to the page
-    this.controls.autoRotateSpeed = .36;
     this.controls.rotateSpeed = .45;
     this.controls.zoomSpeed = .55;
     this.controls.minDistance = cameraPreset(this.mobile).minDistance;
@@ -48,8 +45,8 @@ export class ObservatoryScene {
     this.controls.minPolarAngle = .2;
     this.controls.maxPolarAngle = Math.PI - .2;
     this.controls.addEventListener('change', () => { this.needsRender = true; this.onZoom?.(zoomFactor(this.camera.position.length(), this.referenceDistance ?? 9.6)); });
-    this.controls.addEventListener('start', () => { this.manualUntil = performance.now() + 2200; this.container.classList.add('is-dragging'); });
-    this.controls.addEventListener('end', () => { this.manualUntil = performance.now() + 2200; this.container.classList.remove('is-dragging'); });
+    this.controls.addEventListener('start', () => { this.container.classList.add('is-dragging'); });
+    this.controls.addEventListener('end', () => { this.container.classList.remove('is-dragging'); });
     this.installTouchControls();
     this.controls.update();
     this.worlds = [this.makeVesper(), this.makeSelene(), this.makeAether()];
@@ -201,15 +198,11 @@ export class ObservatoryScene {
   setPaused(paused) { this.paused=paused; if (paused && this.transition) this.select(this.transition.to, true); this.needsRender=true; }
   setLight(value) { const light=clamp(Number(value),.55,1.65);this.materials.forEach((material)=>{material.uniforms.uLight.value=light;});this.needsRender=true; }
   zoom(multiplier) {
-    this.manualUntil = performance.now() + 2200;
-    this.controls.autoRotate = false;
     this.camera.position.multiplyScalar(clamp(this.camera.position.length()*multiplier,this.controls.minDistance,this.controls.maxDistance)/this.camera.position.length());
     this.controls.update();
     this.needsRender=true;
   }
   orbit(horizontal, vertical) {
-    this.manualUntil = performance.now() + 2200;
-    this.controls.autoRotate = false;
     const spherical=new THREE.Spherical().setFromVector3(this.camera.position);
     spherical.theta+=horizontal;
     spherical.phi=clamp(spherical.phi+vertical,.2,Math.PI-.2);
@@ -219,10 +212,8 @@ export class ObservatoryScene {
   }
   reset() {
     const damping = this.controls.enableDamping;
-    this.controls.autoRotate = false;
     this.controls.enableDamping = false;
     this.controls.update();
-    this.manualUntil = performance.now() + 2200;
     this.camera.position.set(...cameraPreset(this.mobile).position);
     if (this.mobile || this.immersive) {
       this.camera.position.setLength(fitDistance(this.camera.aspect));
@@ -234,11 +225,6 @@ export class ObservatoryScene {
     this.needsRender=true;
   }
 
-  setFlight(enabled) {
-    this.flight = Boolean(enabled);
-    this.manualUntil = 0;
-    this.needsRender = true;
-  }
 
   setImmersive(enabled) {
     if (this.immersive === Boolean(enabled)) return;
@@ -272,7 +258,6 @@ export class ObservatoryScene {
       if (gesture.intent === 'pending') gesture.intent = classifyGesture(event.clientX-gesture.startX,event.clientY-gesture.startY);
       if (gesture.intent === 'orbit') {
         if (event.cancelable) event.preventDefault();
-        this.manualUntil = performance.now() + 2200;
         this.orbit(dragAngle(event.clientX-gesture.lastX, canvas.clientWidth), 0);
         this.container.classList.add('is-dragging');
       }
@@ -311,7 +296,6 @@ export class ObservatoryScene {
       if(t===1){this.worlds[this.transition.to].scale.setScalar(1);this.transition=null;}
       this.needsRender=true;
     }
-    this.controls.autoRotate = flightCanRun({ enabled:this.flight, paused:this.paused, now:timestamp, manualUntil:this.manualUntil });
     this.controls.update(delta);
     if (this.needsRender) { this.renderer.render(this.scene,this.camera);this.needsRender=false; }
     this.frame=requestAnimationFrame((t)=>this.tick(t));
