@@ -45,7 +45,8 @@ function updateWorld(world, { announceChange = true, changeURL = true } = {}) {
   $('#world-dialog-title').textContent = world.name;
   $('#dialog-type').textContent = world.type;
   $('#dialog-description').textContent = world.description;
-  $('#scene').setAttribute('aria-label', `Interactive 3D model of ${world.name}, an imagined ${world.type.toLowerCase()}. Drag to orbit. Arrow keys to orbit, plus and minus to zoom, space to pause, R to reset.`);
+  $('#scene').setAttribute('aria-label', scene ? `Interactive 3D model of ${world.name}, an imagined ${world.type.toLowerCase()}. Drag to orbit. Arrow keys to orbit, plus and minus to zoom, space to pause, R to reset.` : `Illustration of ${world.name}, an imagined ${world.type.toLowerCase()}. The 3D view is unavailable in this browser. World selection and observation notes are available.`);
+  $('#world-dialog .dialog-instruction').textContent = scene ? 'Drag the world to turn it. Use + and − to look closer. Pause the motion to hold the moment.' : 'This browser is showing an illustrated view. Choose a world from the collection to explore its palette and observation notes. A WebGL-capable browser unlocks the orbital camera and lighting controls.';
   scene?.select(index);
   clearTimeout(transitionTimer);
   document.body.classList.add('world-changing');
