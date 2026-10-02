@@ -102,4 +102,4 @@ document.querySelectorAll('dialog').forEach((dialog) => {
   dialog.addEventListener('click', (event) => { const bounds=dialog.getBoundingClientRect(); if(event.target===dialog && (event.clientX<bounds.left || event.clientX>bounds.right || event.clientY<bounds.top || event.clientY>bounds.bottom))dialog.close(); });
   dialog.addEventListener('close', () => { document.body.style.overflow='';lastFocused?.focus({preventScroll:true}); });
 });
-window.addEventListener('pagehide', () => scene?.dispose(), { once: true });
+window.addEventListener('pagehide', (event) => { if (!event.persisted) scene?.dispose(); });

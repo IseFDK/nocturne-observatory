@@ -42,7 +42,7 @@ GitHub Pages setup: **Settings → Pages → Deploy from a branch → main → /
 - `src/shaders.js` — original GLSL planet textures, ice fractures, dusty rings, stars, coronas and particles
 - `src/worlds.js` — fictional world descriptions and deterministic scene utilities
 - `src/style.css` — responsive editorial layout and illustrated WebGL fallback
-- `test/worlds.test.js` — deterministic world, routing, zoom, random and camera tests
+- `test/*.test.js` — content, routing, geometry, transition, zoom, random and camera tests
 - `scripts/verify-build.mjs` — relative-asset and static export checks
 
 Built with vanilla JavaScript, Three.js 0.180 and Vite 7. Fonts: Manrope and Cormorant Garamond, licensed under the SIL Open Font License. Third-party license notices are in `THIRD_PARTY_NOTICES.md`.
@@ -57,7 +57,7 @@ Keyboard controls when the 3D world has focus: arrows to orbit, `+` / `-` to zoo
 
 ## QA
 
-`npm test`: 5 tests for content integrity, safe unknown-world routes, numeric constraints, seeded particle layout and responsive camera presets.
+`npm test`: 10 tests for content integrity, safe unknown-world routes, finite renderable geometry, repeated selection, interrupted transitions, shader light limits, zoom boundaries, keyboard orbit limits, seeded particle layout and responsive camera presets.
 
 `npm run build`: production bundle generation plus static export validation, including relative script/style paths and the presence of every HTML-linked local file.
 
