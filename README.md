@@ -10,7 +10,9 @@ An interactive atlas of three imagined worlds. A small observatory built for the
 - **Selene** — a frozen moon with procedural fault lines and a sparse debris belt
 - **Aether** — a warm and cool binary pair with textured surfaces and soft coronas
 
-Drag to orbit. Scroll or pinch to zoom. Select a world, adjust the light, hold the motion, or return to the original camera. Open the field notes for the fictional observation book.
+Grab the planet or the space around its orbit. On touchscreens, swipe sideways to turn; vertical gestures keep scrolling the page and pinch remains native browser zoom. Dedicated 44-pixel touch controls turn the camera and zoom the world. Select a world, adjust the light, hold the motion, or return to the original camera.
+
+**Take a flight** starts a slow camera orbit that yields to manual steering. **Quiet view** hides the interface and centers the world, with a visible exit, flight toggle, zoom and next-world controls. Escape always exits quiet view. Flight is an explicit motion opt-in, including for reduced-motion users. In browsers without WebGL, flight is clearly labeled as an illustrated motion study. Open the field notes for the fictional observation book.
 
 No photographs, remote textures, astronomy feeds, accounts, analytics, cookies, or paid APIs. All world names, coordinates, and descriptions are fictional. Three-dimensional surfaces and particles are rendered locally in the browser. Fonts are self-hosted.
 
@@ -41,6 +43,7 @@ GitHub Pages setup: **Settings → Pages → Deploy from a branch → main → /
 - `src/scene.js` — Three.js scene, orbital camera, procedural geometry, responsive rendering and lifecycle handling
 - `src/shaders.js` — original GLSL planet textures, ice fractures, dusty rings, stars, coronas and particles
 - `src/worlds.js` — fictional world descriptions and deterministic scene utilities
+- `src/interaction.js` — tested touch direction gating, proportional rotation, flight conditions and portrait camera fitting
 - `src/style.css` — responsive editorial layout and illustrated WebGL fallback
 - `test/*.test.js` — content, routing, geometry, transition, zoom, random and camera tests
 - `scripts/verify-build.mjs` — relative-asset and static export checks
@@ -57,7 +60,7 @@ Keyboard controls when the 3D world has focus: arrows to orbit, `+` / `-` to zoo
 
 ## QA
 
-`npm test`: 10 tests for content integrity, safe unknown-world routes, finite renderable geometry, repeated selection, interrupted transitions, shader light limits, zoom boundaries, keyboard orbit limits, seeded particle layout and responsive camera presets.
+`npm test`: 15 tests for content integrity, safe unknown-world routes, finite renderable geometry, repeated selection, interrupted transitions, shader light limits, zoom boundaries, keyboard orbit limits, seeded particle layout responsive camera presets, touch intent classification, rotation scaling, flight pause/interaction rules and portrait framing.
 
 `npm run build`: production bundle generation plus static export validation, including relative script/style paths and the presence of every HTML-linked local file.
 

@@ -10,8 +10,8 @@
   <meta property="og:type" content="website" />
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <title>NOCTURNE — An atlas of imagined worlds</title>
-  <script type="module" crossorigin src="./assets/index-CHMLYHw1.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CJ82nxAG.css">
+  <script type="module" crossorigin src="./assets/index-DFQUd-oC.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Bdd9DuAH.css">
 </head>
 <body>
   <a class="skip-link" href="#controls">Skip to observatory controls</a>
@@ -26,6 +26,7 @@
       <section class="observatory" aria-label="Interactive observatory">
         <div class="sky-texture" aria-hidden="true"></div>
         <div id="scene" class="scene" role="img" aria-label="Interactive 3D model of Vesper, an imagined ringed planet. Drag to orbit; use the controls below to zoom or change worlds." tabindex="0">
+          <div class="grab-zone" aria-hidden="true"><span>DRAG THE WORLD</span></div>
           <div class="fallback-world" aria-hidden="true"><div class="fallback-ring"></div><div class="fallback-sphere"></div></div>
         </div>
         <div class="frame-corner corner-tl" aria-hidden="true"></div><div class="frame-corner corner-tr" aria-hidden="true"></div><div class="frame-corner corner-bl" aria-hidden="true"></div><div class="frame-corner corner-br" aria-hidden="true"></div>
@@ -39,13 +40,14 @@
 
         <div class="scene-caption" aria-hidden="true"><span class="caption-line"></span><span id="scene-caption-name">VESPER</span><small id="scene-caption-code">N° 001 / RINGED WORLD</small></div>
         <div class="coordinate-marker" aria-hidden="true"><span>+</span><span>04h 17m 08s<br>+21° 09′ 42″</span></div>
-        <div class="view-note"><span class="drag-symbol" aria-hidden="true">⌖</span><span id="view-hint">Drag to orbit · Scroll to zoom</span></div>
+        <div class="view-note"><span class="drag-symbol" aria-hidden="true">⌖</span><span id="view-hint">Drag the planet or orbit · + / − to zoom</span></div>
         <div id="render-status" class="render-status" role="status">Preparing the view</div>
 
         <div class="instrument-panel" id="controls">
           <div class="current-object"><span class="micro-label">In the eyepiece</span><span class="current-title"><span id="current-index">01</span><strong id="current-name">Vesper</strong></span></div>
+          <div class="experience-controls"><button id="flight-toggle" class="flight-button" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m3 11 14-7-6 13-2-6-6 0Z"/></svg><span>Take a flight</span></button><button id="quiet-toggle" class="quiet-toggle" aria-label="Hide interface" title="Quiet view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg></button></div>
           <div class="light-control"><label for="exposure">Light</label><span aria-hidden="true">◐</span><input type="range" id="exposure" min="0.55" max="1.65" step="0.01" value="1" aria-label="Adjust scene light" /><span aria-hidden="true">☼</span></div>
-          <div class="camera-controls"><button id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button><span class="zoom-label" id="zoom-readout" aria-hidden="true">1.0×</span><button id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button><span class="control-divider"></span><button id="motion-toggle" class="motion-toggle" aria-label="Pause motion" aria-pressed="false" title="Pause motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg></button><button id="reset-view" aria-label="Reset camera view" title="Reset view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8a6 6 0 1 1-.1 4M4 4v4h4"/></svg></button></div>
+          <div class="camera-controls"><button id="orbit-left" aria-label="Turn world left" title="Turn left"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m9 5-5 5 5 5M4 10h12"/></svg></button><button id="orbit-right" aria-label="Turn world right" title="Turn right"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m11 5 5 5-5 5M4 10h12"/></svg></button><span class="control-divider"></span><button id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button><span class="zoom-label" id="zoom-readout" aria-hidden="true">1.0×</span><button id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button><span class="control-divider"></span><button id="motion-toggle" class="motion-toggle" aria-label="Pause motion" aria-pressed="false" title="Pause motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg></button><button id="reset-view" aria-label="Reset camera view" title="Reset view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8a6 6 0 1 1-.1 4M4 4v4h4"/></svg></button></div>
         </div>
       </section>
 
@@ -67,7 +69,9 @@
     <footer><span>NOCTURNE<span class="footer-dot">·</span>A web experiment by <a href="https://github.com/IseFDK" target="_blank" rel="noopener noreferrer">IseFDK <svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a></span><span>Made for the slow look</span><a href="#observatory" class="back-top">Back to the sky <svg class="inline-arrow arrow-up" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a></footer>
   </div>
 
-  <dialog id="world-dialog" class="editorial-dialog" aria-labelledby="world-dialog-title"><div class="dialog-topline"><span class="micro-label" id="dialog-code">Observation 001</span><button class="close-dialog" aria-label="Close observation notes">×</button></div><h2 id="world-dialog-title">Vesper</h2><span class="dialog-subtitle" id="dialog-type">Ringed world</span><p id="dialog-description">A wide ring of fine debris catches the light before the world itself does. Turn the view slowly. The far side keeps its secrets.</p><div class="dialog-rule"></div><p class="dialog-instruction">Drag the world to turn it. Use + and − to look closer. Pause the motion to hold the moment.</p><button class="dialog-return close-dialog">Return to the eyepiece <svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></button></dialog>
+  <aside id="quiet-ui" class="quiet-ui" hidden aria-label="Quiet view controls"><div class="quiet-top"><span><strong>NOCTURNE</strong><small id="quiet-world-name">01 / VESPER</small></span><button id="quiet-exit"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg><span>Show interface</span></button></div><div class="quiet-bottom"><button id="quiet-flight" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m3 11 14-7-6 13-2-6-6 0Z"/></svg><span>Start flight</span></button><span class="control-divider"></span><button id="quiet-zoom-out" aria-label="Zoom out">−</button><button id="quiet-zoom-in" aria-label="Zoom in">+</button><button id="quiet-next">Next world<svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></button></div><p>Esc to show the interface <span id="quiet-flight-status"></span></p></aside>
+
+  <dialog id="world-dialog" class="editorial-dialog" aria-labelledby="world-dialog-title"><div class="dialog-topline"><span class="micro-label" id="dialog-code">Observation 001</span><button class="close-dialog" aria-label="Close observation notes">×</button></div><h2 id="world-dialog-title">Vesper</h2><span class="dialog-subtitle" id="dialog-type">Ringed world</span><p id="dialog-description">A wide ring of fine debris catches the light before the world itself does. Turn the view slowly. The far side keeps its secrets.</p><div class="dialog-rule"></div><p class="dialog-instruction">Drag the planet or its orbit to turn the view. On a phone, swipe sideways; vertical swipes scroll the page. Use + and − to look closer. Pause the motion to hold the moment.</p><button class="dialog-return close-dialog">Return to the eyepiece <svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></button></dialog>
 
   <dialog id="notes-dialog" class="editorial-dialog notes-dialog" aria-labelledby="notes-dialog-title"><div class="dialog-topline"><span class="micro-label">The observation book</span><button class="close-dialog" aria-label="Close field notes">×</button></div><h2 id="notes-dialog-title">Field <em>notes.</em></h2><p class="dialog-intro">Three studies in light, texture and distance.</p><div class="note-entry"><span>01 / VESPER</span><p>The ring is the first thing you see, and the last thing you forget. A thin arrangement of dust around something impossibly heavy.</p></div><div class="note-entry"><span>02 / SELENE</span><p>Veins run under the surface like an unfinished map. No coastline, no compass. Only the blue of something held still.</p></div><div class="note-entry"><span>03 / AETHER</span><p>One light is warm. One is cold. Their orbit is a small negotiation, repeated without end.</p></div><p class="fiction-note">Fictional worlds. Real-time procedural 3D.</p></dialog>
 

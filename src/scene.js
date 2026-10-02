@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { cameraPreset, clamp, seededRandom, zoomFactor } from './worlds.js';
+import { classifyGesture, dragAngle, flightCanRun, fitDistance } from './interaction.js';
 import { sphereVertex, planetFragment, ringVertex, ringFragment, starFragment, glowVertex, glowFragment, pointVertex, pointFragment } from './shaders.js';
 
 const TAU = Math.PI * 2;
@@ -11,8 +12,12 @@ export class ObservatoryScene {
     this.container = container;
     this.onZoom = onZoom;
     this.onState = onState;
-    this.mobile = matchMedia('(max-width: 760px)').matches;
+    this.mobile = matchMedia('(max-width: 860px)').matches;
     this.paused = reducedMotion;
+    this.flight = false;
+    this.immersive = false;
+    this.manualUntil = 0;
+    this.touchGesture = null;
     this.needsRender = true;
     this.time = 0;
     this.lastTime = 0;
@@ -34,13 +39,18 @@ export class ObservatoryScene {
     this.controls.enableDamping = true;
     this.controls.dampingFactor = .065;
     this.controls.enablePan = false;
+    this.controls.enableZoom = false; // Ordinary wheel scrolling belongs to the page
+    this.controls.autoRotateSpeed = .36;
     this.controls.rotateSpeed = .45;
     this.controls.zoomSpeed = .55;
     this.controls.minDistance = cameraPreset(this.mobile).minDistance;
-    this.controls.maxDistance = cameraPreset(this.mobile).maxDistance;
+    this.controls.maxDistance = 34;
     this.controls.minPolarAngle = .2;
     this.controls.maxPolarAngle = Math.PI - .2;
-    this.controls.addEventListener('change', () => { this.needsRender = true; this.onZoom?.(zoomFactor(this.camera.position.length())); });
+    this.controls.addEventListener('change', () => { this.needsRender = true; this.onZoom?.(zoomFactor(this.camera.position.length(), this.referenceDistance ?? 9.6)); });
+    this.controls.addEventListener('start', () => { this.manualUntil = performance.now() + 2200; this.container.classList.add('is-dragging'); });
+    this.controls.addEventListener('end', () => { this.manualUntil = performance.now() + 2200; this.container.classList.remove('is-dragging'); });
+    this.installTouchControls();
     this.controls.update();
     this.worlds = [this.makeVesper(), this.makeSelene(), this.makeAether()];
     this.worlds.forEach((world, index) => { world.visible = index === 0; this.scene.add(world); });
@@ -166,13 +176,14 @@ export class ObservatoryScene {
     const width = this.container.clientWidth, height = this.container.clientHeight;
     if (!width || !height) return;
     const wasMobile = this.mobile;
-    this.mobile = matchMedia('(max-width: 760px)').matches;
+    this.mobile = matchMedia('(max-width: 860px)').matches;
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, this.mobile ? 1.5 : 1.75));
     this.camera.aspect = width / height;
-    this.camera.setViewOffset(width, height, -width * cameraPreset(this.mobile).horizontalOffset, 0, width, height);
+    this.camera.setViewOffset(width, height, -width * (this.immersive ? 0 : cameraPreset(this.mobile).horizontalOffset), 0, width, height);
     this.camera.updateProjectionMatrix();
-    if (wasMobile !== this.mobile) this.reset();
+    if (wasMobile !== this.mobile || !this.hasSized) this.reset();
+    this.hasSized = true;
     this.needsRender = true;
   }
 
@@ -189,9 +200,95 @@ export class ObservatoryScene {
 
   setPaused(paused) { this.paused=paused; if (paused && this.transition) this.select(this.transition.to, true); this.needsRender=true; }
   setLight(value) { const light=clamp(Number(value),.55,1.65);this.materials.forEach((material)=>{material.uniforms.uLight.value=light;});this.needsRender=true; }
-  zoom(multiplier) { this.camera.position.multiplyScalar(clamp(this.camera.position.length()*multiplier,this.controls.minDistance,this.controls.maxDistance)/this.camera.position.length());this.controls.update();this.needsRender=true; }
-  orbit(horizontal, vertical) { const spherical=new THREE.Spherical().setFromVector3(this.camera.position);spherical.theta+=horizontal;spherical.phi=clamp(spherical.phi+vertical,.2,Math.PI-.2);this.camera.position.setFromSpherical(spherical);this.controls.update();this.needsRender=true; }
-  reset() { this.camera.position.set(...cameraPreset(this.mobile).position);this.controls.target.set(0,0,0);this.controls.update();this.needsRender=true; }
+  zoom(multiplier) {
+    this.manualUntil = performance.now() + 2200;
+    this.controls.autoRotate = false;
+    this.camera.position.multiplyScalar(clamp(this.camera.position.length()*multiplier,this.controls.minDistance,this.controls.maxDistance)/this.camera.position.length());
+    this.controls.update();
+    this.needsRender=true;
+  }
+  orbit(horizontal, vertical) {
+    this.manualUntil = performance.now() + 2200;
+    this.controls.autoRotate = false;
+    const spherical=new THREE.Spherical().setFromVector3(this.camera.position);
+    spherical.theta+=horizontal;
+    spherical.phi=clamp(spherical.phi+vertical,.2,Math.PI-.2);
+    this.camera.position.setFromSpherical(spherical);
+    this.controls.update();
+    this.needsRender=true;
+  }
+  reset() {
+    const damping = this.controls.enableDamping;
+    this.controls.autoRotate = false;
+    this.controls.enableDamping = false;
+    this.controls.update();
+    this.manualUntil = performance.now() + 2200;
+    this.camera.position.set(...cameraPreset(this.mobile).position);
+    if (this.mobile || this.immersive) {
+      this.camera.position.setLength(fitDistance(this.camera.aspect));
+    }
+    this.referenceDistance = this.camera.position.length();
+    this.controls.target.set(0,0,0);
+    this.controls.update();
+    this.controls.enableDamping = damping;
+    this.needsRender=true;
+  }
+
+  setFlight(enabled) {
+    this.flight = Boolean(enabled);
+    this.manualUntil = 0;
+    this.needsRender = true;
+  }
+
+  setImmersive(enabled) {
+    if (this.immersive === Boolean(enabled)) return;
+    if (enabled) {
+      this.previousDistance = this.camera.position.length();
+      this.previousReferenceDistance = this.referenceDistance;
+    }
+    this.immersive = Boolean(enabled);
+    this.resize();
+    this.camera.position.setLength(enabled ? fitDistance(this.camera.aspect) : (this.previousDistance ?? fitDistance(this.camera.aspect)));
+    this.referenceDistance = enabled ? this.camera.position.length() : (this.previousReferenceDistance ?? this.camera.position.length());
+    this.controls.update();
+    this.needsRender = true;
+  }
+
+  installTouchControls() {
+    const canvas = this.renderer.domElement;
+    canvas.style.touchAction = 'pan-y pinch-zoom';
+    this.touchDown = (event) => {
+      if (event.pointerType !== 'touch') return;
+      // Capture phase prevents OrbitControls from claiming a native page-scroll gesture.
+      event.stopImmediatePropagation();
+      if (this.touchGesture) { this.touchGesture = null; this.container.classList.remove('is-dragging'); return; }
+      this.touchGesture = { id:event.pointerId, startX:event.clientX, startY:event.clientY, lastX:event.clientX, intent:'pending' };
+    };
+    this.touchMove = (event) => {
+      if (event.pointerType !== 'touch') return;
+      event.stopImmediatePropagation();
+      const gesture = this.touchGesture;
+      if (!gesture || gesture.id !== event.pointerId) return;
+      if (gesture.intent === 'pending') gesture.intent = classifyGesture(event.clientX-gesture.startX,event.clientY-gesture.startY);
+      if (gesture.intent === 'orbit') {
+        if (event.cancelable) event.preventDefault();
+        this.manualUntil = performance.now() + 2200;
+        this.orbit(dragAngle(event.clientX-gesture.lastX, canvas.clientWidth), 0);
+        this.container.classList.add('is-dragging');
+      }
+      gesture.lastX = event.clientX;
+    };
+    this.touchEnd = (event) => {
+      if (event.pointerType !== 'touch') return;
+      event.stopImmediatePropagation();
+      if (this.touchGesture?.id === event.pointerId) this.touchGesture = null;
+      this.container.classList.remove('is-dragging');
+    };
+    canvas.addEventListener('pointerdown',this.touchDown,true);
+    canvas.addEventListener('pointermove',this.touchMove,{capture:true,passive:false});
+    canvas.addEventListener('pointerup',this.touchEnd,true);
+    canvas.addEventListener('pointercancel',this.touchEnd,true);
+  }
 
   tick(timestamp) {
     if (document.hidden) return;
@@ -214,7 +311,8 @@ export class ObservatoryScene {
       if(t===1){this.worlds[this.transition.to].scale.setScalar(1);this.transition=null;}
       this.needsRender=true;
     }
-    this.controls.update();
+    this.controls.autoRotate = flightCanRun({ enabled:this.flight, paused:this.paused, now:timestamp, manualUntil:this.manualUntil });
+    this.controls.update(delta);
     if (this.needsRender) { this.renderer.render(this.scene,this.camera);this.needsRender=false; }
     this.frame=requestAnimationFrame((t)=>this.tick(t));
   }
@@ -223,6 +321,11 @@ export class ObservatoryScene {
     cancelAnimationFrame(this.frame);
     this.resizeObserver.disconnect();
     document.removeEventListener('visibilitychange',this.visibilityListener);
+    const canvas = this.renderer.domElement;
+    canvas.removeEventListener('pointerdown',this.touchDown,true);
+    canvas.removeEventListener('pointermove',this.touchMove,true);
+    canvas.removeEventListener('pointerup',this.touchEnd,true);
+    canvas.removeEventListener('pointercancel',this.touchEnd,true);
     this.controls.dispose();
     this.scene.traverse((object)=>{object.geometry?.dispose();if(object.material){(Array.isArray(object.material)?object.material:[object.material]).forEach((m)=>m.dispose());}});
     this.renderer.dispose();
