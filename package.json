@@ -1,0 +1,20 @@
+{
+  "name": "nocturne-observatory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && node scripts/verify-build.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@fontsource/cormorant-garamond": "5.2.8",
+    "@fontsource/manrope": "5.2.8",
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "vite": "7.1.7"
+  }
+}

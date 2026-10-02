@@ -1,0 +1,10 @@
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { resolve } from 'node:path';
+const html=await readFile('docs/index.html','utf8');
+if(!html.includes('<title>NOCTURNE'))throw Error('Page title missing');
+if(!html.includes('src="./assets/')||!html.includes('href="./assets/'))throw Error('Build asset paths must be relative for GitHub Pages');
+await stat('docs/.nojekyll');
+const assets=await readdir('docs/assets');
+if(!assets.some(x=>x.endsWith('.js'))||!assets.some(x=>x.endsWith('.css')))throw Error('Build assets missing');
+for(const reference of html.matchAll(/(?:src|href)="(\.\/[^"?#]+)"/g))await stat(resolve('docs',reference[1]));
+console.log(`GitHub Pages export verified: docs/index.html, .nojekyll, ${assets.length} local assets`);

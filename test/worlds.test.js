@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { worlds, getWorld, clamp, seededRandom, zoomFactor, cameraPreset } from '../src/worlds.js';
+test('The three worlds have unique IDs and complete observation data',()=>{assert.equal(worlds.length,3);assert.equal(new Set(worlds.map(x=>x.id)).size,3);for(const world of worlds){for(const field of ['name','index','type','code','material','palette','mood','description','color'])assert.ok(world[field]);assert.equal(world.coordinates.length,2);assert.ok(world.radius>0);assert.equal(getWorld(world.id),world);}});
+test('Unknown or missing world routes safely fall back to Vesper',()=>{assert.equal(getWorld(null).id,'vesper');assert.equal(getWorld('missing').id,'vesper');});
+test('Zoom boundaries and numeric light limits are stable',()=>{assert.equal(clamp(.4,.55,1.65),.55);assert.equal(clamp(3,.55,1.65),1.65);assert.equal(clamp(1,.55,1.65),1);assert.equal(zoomFactor(9.6),'1.0');assert.equal(zoomFactor(4.8),'2.0');});
+test('Procedural particle layouts are deterministic and bounded',()=>{const a=seededRandom(417),b=seededRandom(417),c=seededRandom(418);const first=a();assert.equal(first,b());assert.notEqual(first,c());for(let i=0;i<1000;i++){const value=a();assert.ok(value>=0&&value<1);assert.equal(value,b());}});
+test('Both camera presets keep a valid render and share safe limits',()=>{for(const mobile of [false,true]){const preset=cameraPreset(mobile);assert.equal(preset.position.length,3);const distance=Math.hypot(...preset.position);assert.ok(distance>preset.minDistance&&distance<preset.maxDistance);}assert.equal(cameraPreset(true).horizontalOffset,0);assert.ok(cameraPreset(false).horizontalOffset>0);});

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101315" />
+  <meta name="description" content="NOCTURNE. An interactive atlas of three imagined worlds. A small, quiet observatory made for the web." />
+  <meta property="og:title" content="NOCTURNE — An atlas of imagined worlds" />
+  <meta property="og:description" content="Three worlds. A little room to wonder. An interactive 3D observatory." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <title>NOCTURNE — An atlas of imagined worlds</title>
+  <script type="module" crossorigin src="./assets/index-SRjB5gtf.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-C3uF2xrN.css">
+</head>
+<body>
+  <a class="skip-link" href="#controls">Skip to observatory controls</a>
+  <div id="app">
+    <header class="masthead">
+      <a class="wordmark" href="#" aria-label="Nocturne home"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="11"/><ellipse cx="20" cy="20" rx="18" ry="6" transform="rotate(-35 20 20)"/><circle cx="32" cy="9" r="1.5" class="solid"/></svg><span>NOCTURNE<span class="wordmark-sub">An atlas of imagined worlds</span></span></a>
+      <nav aria-label="Primary navigation"><a class="nav-current" href="#observatory">Observatory<span>01</span></a><button data-dialog="notes-dialog">Field notes<span>02</span></button><button data-dialog="about-dialog">The project<span>03</span></button></nav>
+      <div class="station-mark"><span class="status-dot"></span>Independent observatory<span class="station-number">N° 004</span></div>
+    </header>
+
+    <main id="observatory">
+      <section class="observatory" aria-label="Interactive observatory">
+        <div class="sky-texture" aria-hidden="true"></div>
+        <div id="scene" class="scene" role="img" aria-label="Interactive 3D model of Vesper, an imagined ringed planet. Drag to orbit; use the controls below to zoom or change worlds." tabindex="0">
+          <div class="fallback-world" aria-hidden="true"><div class="fallback-ring"></div><div class="fallback-sphere"></div></div>
+        </div>
+        <div class="frame-corner corner-tl" aria-hidden="true"></div><div class="frame-corner corner-tr" aria-hidden="true"></div><div class="frame-corner corner-bl" aria-hidden="true"></div><div class="frame-corner corner-br" aria-hidden="true"></div>
+
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="tiny-cross" aria-hidden="true">+</span>A little room to wonder</p>
+          <h1>Stay with<br>the <em>dark.</em></h1>
+          <p class="hero-description">An atlas of worlds that don't exist.<br>A place to look a little longer.</p>
+          <button id="explore-button" class="explore-button"><span class="button-orbit" aria-hidden="true">↗</span><span>Explore the world<span class="button-sub">Open observation notes</span></span></button>
+        </div>
+
+        <div class="scene-caption" aria-hidden="true"><span class="caption-line"></span><span id="scene-caption-name">VESPER</span><small id="scene-caption-code">N° 001 / RINGED WORLD</small></div>
+        <div class="coordinate-marker" aria-hidden="true"><span>+</span><span>04h 17m 08s<br>+21° 09′ 42″</span></div>
+        <div class="view-note"><span class="drag-symbol" aria-hidden="true">⌖</span><span id="view-hint">Drag to orbit · Scroll to zoom</span></div>
+        <div id="render-status" class="render-status" role="status">Preparing the view</div>
+
+        <div class="instrument-panel" id="controls">
+          <div class="current-object"><span class="micro-label">In the eyepiece</span><span class="current-title"><span id="current-index">01</span><strong id="current-name">Vesper</strong></span></div>
+          <div class="light-control"><label for="exposure">Light</label><span aria-hidden="true">◐</span><input type="range" id="exposure" min="0.55" max="1.65" step="0.01" value="1" aria-label="Adjust scene light" /><span aria-hidden="true">☼</span></div>
+          <div class="camera-controls"><button id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button><span class="zoom-label" id="zoom-readout" aria-hidden="true">1.0×</span><button id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button><span class="control-divider"></span><button id="motion-toggle" class="motion-toggle" aria-label="Pause motion" aria-pressed="false" title="Pause motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg></button><button id="reset-view" aria-label="Reset camera view" title="Reset view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8a6 6 0 1 1-.1 4M4 4v4h4"/></svg></button></div>
+        </div>
+      </section>
+
+      <section class="catalog" aria-labelledby="catalog-title">
+        <div class="catalog-heading"><h2 id="catalog-title">The collection</h2><span>03 studies / Select a world</span></div>
+        <div class="world-list" role="group" aria-label="Select a world">
+          <button class="world-card is-selected" data-world="vesper" aria-pressed="true"><span class="world-number">01</span><span class="world-mini mini-vesper" aria-hidden="true"><i></i></span><span class="world-info"><strong>Vesper</strong><span>A giant, wearing dust</span></span><span class="world-type">Ringed world</span><span class="world-arrow" aria-hidden="true">↗</span></button>
+          <button class="world-card" data-world="selene" aria-pressed="false"><span class="world-number">02</span><span class="world-mini mini-selene" aria-hidden="true"><i></i></span><span class="world-info"><strong>Selene</strong><span>Ice with a long memory</span></span><span class="world-type">Frozen moon</span><span class="world-arrow" aria-hidden="true">↗</span></button>
+          <button class="world-card" data-world="aether" aria-pressed="false"><span class="world-number">03</span><span class="world-mini mini-aether" aria-hidden="true"><i></i></span><span class="world-info"><strong>Aether</strong><span>Two lights, one orbit</span></span><span class="world-type">Binary study</span><span class="world-arrow" aria-hidden="true">↗</span></button>
+        </div>
+      </section>
+
+      <section class="observation" aria-labelledby="observation-title">
+        <div class="observation-heading"><p class="eyebrow">From the observation book</p><h2 id="observation-title">Every orbit<br>leaves a <em>trace.</em></h2></div>
+        <div class="observation-body"><span class="micro-label" id="observation-code">Study 001 · Vesper</span><p id="observation-text">A wide ring of fine debris catches the light before the world itself does. Turn the view slowly. The far side keeps its secrets.</p><div class="observation-details"><div><span class="micro-label">Material</span><strong id="material-value">Dust &amp; copper</strong></div><div><span class="micro-label">Palette</span><strong id="palette-value">Ember / umber</strong></div><div><span class="micro-label">Mood</span><strong id="mood-value">After the sun</strong></div></div><p class="fiction-note">An artist's atlas. These worlds, coordinates and observation notes are fictional.</p></div>
+      </section>
+    </main>
+
+    <footer><span>NOCTURNE<span class="footer-dot">·</span>A web experiment by <a href="https://github.com/IseFDK" target="_blank" rel="noopener noreferrer">IseFDK ↗</a></span><span>Made for the slow look</span><a href="#observatory" class="back-top">Back to the sky ↑</a></footer>
+  </div>
+
+  <dialog id="world-dialog" class="editorial-dialog" aria-labelledby="world-dialog-title"><div class="dialog-topline"><span class="micro-label" id="dialog-code">Observation 001</span><button class="close-dialog" aria-label="Close observation notes">×</button></div><h2 id="world-dialog-title">Vesper</h2><span class="dialog-subtitle" id="dialog-type">Ringed world</span><p id="dialog-description">A wide ring of fine debris catches the light before the world itself does. Turn the view slowly. The far side keeps its secrets.</p><div class="dialog-rule"></div><p class="dialog-instruction">Drag the world to turn it. Use + and − to look closer. Pause the motion to hold the moment.</p><button class="dialog-return close-dialog">Return to the eyepiece ↗</button></dialog>
+
+  <dialog id="notes-dialog" class="editorial-dialog notes-dialog" aria-labelledby="notes-dialog-title"><div class="dialog-topline"><span class="micro-label">The observation book</span><button class="close-dialog" aria-label="Close field notes">×</button></div><h2 id="notes-dialog-title">Field <em>notes.</em></h2><p class="dialog-intro">Three studies in light, texture and distance.</p><div class="note-entry"><span>01 / VESPER</span><p>The ring is the first thing you see, and the last thing you forget. A thin arrangement of dust around something impossibly heavy.</p></div><div class="note-entry"><span>02 / SELENE</span><p>Veins run under the surface like an unfinished map. No coastline, no compass. Only the blue of something held still.</p></div><div class="note-entry"><span>03 / AETHER</span><p>One light is warm. One is cold. Their orbit is a small negotiation, repeated without end.</p></div><p class="fiction-note">Fictional worlds. Real-time procedural 3D.</p></dialog>
+
+  <dialog id="about-dialog" class="editorial-dialog" aria-labelledby="about-dialog-title"><div class="dialog-topline"><span class="micro-label">Behind the atlas</span><button class="close-dialog" aria-label="Close project information">×</button></div><h2 id="about-dialog-title">A quiet<br><em>experiment.</em></h2><p>Nocturne is a small observatory built for a browser. Every world is drawn in real time: surfaces, rings, drifting particles and all.</p><p>No photographs. No live astronomy feed. Just three imagined objects, and the pleasure of looking around them.</p><div class="dialog-rule"></div><p class="dialog-instruction">Built with Three.js and custom shaders. Keyboard: arrows to orbit, + / − to zoom, space to pause, R to reset when the world has focus. Respects reduced-motion preferences.</p><a class="dialog-return" href="https://github.com/IseFDK/nocturne-observatory" target="_blank" rel="noopener noreferrer">View the source ↗</a></dialog>
+  <div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
