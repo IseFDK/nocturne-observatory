@@ -2,11 +2,11 @@
 
 ## Automated checks
 
-- `npm test`: 10 tests passed
+- `npm test`: 16 tests passed
 - `npm run build`: passed
 - `node --check`: passed for all source, test, configuration and verification files
 - GitHub Pages export validation: passed; all script and style URLs are relative; `.nojekyll` and linked local files are present
-- Production export: approximately 644 KB uncompressed including five local font files; main JavaScript approximately 131 KB gzip
+- Production export: approximately 660 KB uncompressed including five local font files; main JavaScript approximately 133 KB gzip
 - Development server starts successfully on `127.0.0.1`
 
 ## Public browser checks
@@ -40,4 +40,17 @@ Mobile layout now uses a shorter, bounded scene, portrait-aware camera fitting, 
 
 New flight mode slowly orbits the camera, yields to manual steering and respects pause. Quiet view centers the scene, hides inactive interface elements with inert/ARIA state and provides visible return, flight, zoom and next-world controls. Escape restores the interface and prior focus. Reduced-motion defaults remain paused; flight only starts with explicit user interaction. Graphics-free browsers get clearly labeled illustrated flight.
 
-`npm test`: 15 tests pass after this update. Production build passes. Public browser re-verification of the updated layout and flight/quiet controls is pending deployment; physical touch and live GPU validation remain unavailable in this cloud browser.
+`npm test`: 16 tests pass after this update. Production build and JavaScript syntax checks pass.
+
+Public Chromium verification after deployment:
+
+- Hit-testing at three points across the planet/ring reaches the scene, rather than fallback artwork
+- Responsive layouts checked at 320, 375, 390 and 768 CSS pixels: document width equals viewport width
+- All six mobile camera buttons measure 44 × 44 CSS pixels
+- Illustrated flight starts/stops, with matching pressed state and clearly labeled fallback status
+- Quiet view hides/inerts inactive interface elements and provides a visible return button
+- Next-world selection works inside quiet view and updates its label, illustration and URL
+- Escape restores the normal interface and focus to the opening control
+- Quiet-view toolbar remains within the viewport on the smallest tested phone-width layout
+
+The final spacing/readability pass enlarges secondary mobile prose and light/touch targets, and removes the compact zoom readout below 360px so six 44-pixel camera buttons fit. Portrait framing now treats horizontal rings and vertical planet extent separately, avoiding unnecessary distance in landscape/tablet scenes. Physical touch and live GPU validation remain unavailable in this cloud browser.

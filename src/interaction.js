@@ -11,9 +11,9 @@ export function dragAngle(deltaX, width) {
 export function flightCanRun({ enabled, paused, now, manualUntil }) {
   return Boolean(enabled && !paused && now >= manualUntil);
 }
-export function fitDistance(aspect, { radius = 3.5, fov = 38, minimum = 8.6, maximum = 32 } = {}) {
+export function fitDistance(aspect, { radius = 3.5, verticalRadius = 1.8, fov = 38, minimum = 6.8, maximum = 32 } = {}) {
   const verticalHalf = fov * Math.PI / 360;
   const horizontalHalf = Math.atan(Math.tan(verticalHalf) * Math.max(aspect, .2));
-  const distance = radius * 1.08 / Math.sin(Math.min(verticalHalf, horizontalHalf));
+  const distance = Math.max(verticalRadius * 1.08 / Math.sin(verticalHalf), radius * 1.08 / Math.sin(horizontalHalf));
   return Math.min(maximum, Math.max(minimum, distance));
 }

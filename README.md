@@ -60,7 +60,7 @@ Keyboard controls when the 3D world has focus: arrows to orbit, `+` / `-` to zoo
 
 ## QA
 
-`npm test`: 15 tests for content integrity, safe unknown-world routes, finite renderable geometry, repeated selection, interrupted transitions, shader light limits, zoom boundaries, keyboard orbit limits, seeded particle layout responsive camera presets, touch intent classification, rotation scaling, flight pause/interaction rules and portrait framing.
+`npm test`: 16 tests for content integrity, safe unknown-world routes, finite renderable geometry, repeated selection, interrupted transitions, shader light limits, zoom boundaries, keyboard orbit limits, seeded particle layout responsive camera presets, touch intent classification, rotation scaling, flight pause/interaction rules and portrait framing and pointer-transparent fallback/decoration layers.
 
 `npm run build`: production bundle generation plus static export validation, including relative script/style paths and the presence of every HTML-linked local file.
 

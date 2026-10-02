@@ -29,3 +29,11 @@ test('Narrow portrait views get enough distance to keep the ring in frame', () =
   assert.ok(fitDistance(.4) <= 32);
   for (const aspect of [.35, .4, .8, 1, 2]) assert.ok(Number.isFinite(fitDistance(aspect)));
 });
+
+test('Fallback artwork and decorative grab cues cannot intercept pointer input', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const css = await readFile(new URL('../src/style.css', import.meta.url), 'utf8');
+  assert.match(css, /\.fallback-world,\.fallback-world \*\{pointer-events:none!important\}/);
+  assert.match(css, /\.grab-zone\{[^}]*pointer-events:none/);
+  assert.match(css, /\.scene canvas\{[^}]*pointer-events:auto/);
+});

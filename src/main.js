@@ -44,7 +44,7 @@ function toggleFlight() {
   scene?.setPaused(paused);
   scene?.setFlight(flight);
   syncMotionUI();
-  announce(flight ? 'Slow flight started. Drag to steer. Hide the interface for a quiet view.' : 'Flight ended. Manual view restored.');
+  announce(flight ? (scene ? 'Slow flight started. Drag to steer. Hide the interface for a quiet view.' : 'Illustrated flight started. Hide the interface for a quiet view.') : 'Flight ended.');
 }
 
 function syncPageLock() {
